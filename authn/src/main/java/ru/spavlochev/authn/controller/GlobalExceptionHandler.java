@@ -1,0 +1,28 @@
+package ru.spavlochev.authn.controller;
+
+import jakarta.persistence.EntityExistsException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.spavlochev.authn.dto.ErrorResponseDto;
+
+@RestControllerAdvice
+@Slf4j
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<ErrorResponseDto> handleEntityExistsException(EntityExistsException e) {
+        log.warn("Неудачная попытка регистрации", e);
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new ErrorResponseDto(HttpStatus.CONFLICT.value(), e.getMessage()));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+        log.error("Ошибка аутентификации", e);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials"));
+    }
+}

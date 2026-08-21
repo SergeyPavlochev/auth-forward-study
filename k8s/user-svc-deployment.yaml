@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-svc-deployment
+  namespace: usersvc
+  labels:
+    app: user-svc
+spec:
+  replicas: 1
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: user-svc
+  template:
+    metadata:
+      labels:
+        app: user-svc
+    spec:
+      containers:
+        - name: user-svc-container
+          image: leokot/user-svc:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 18080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 18081
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 18081
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          envFrom:
+            - configMapRef:
+                name: user-svc-config
+          env:
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="aab5aef0-685e-4ef4-86b3-329c85fc77e3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/auth-forward-study.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/AuthnApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/config/PasswordEncoderConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/controller/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/controller/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/dto/AuthResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/dto/ErrorResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/dto/LoginRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/dto/RegisterRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/entity/AppUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/security/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/java/ru/spavlochev/authn/service/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/authn/src/test/java/ru/spavlochev/authn/AuthnApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/authn-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/authn-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/authn-secrets.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/authn-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/db-init-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/db-init-job.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/db-secrets.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/db-values.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/traefik-middleware.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/traefik-router.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/user-svc-configmap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/user-svc-deployment.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/k8s/user-svc-service.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/UserSvcApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/controller/AppUserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/controller/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/dto/CreateUserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/dto/ErrorResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/dto/UpdateUserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/dto/UserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/entity/AppUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/exception/AccessRightsViolationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/mapper/AppUserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/repository/AppUserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/java/ru/spavlochev/usersvc/service/AppUserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/user-svc/src/test/java/ru/spavlochev/usersvc/UserSvcApplicationTests.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Record" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
+  <component name="KubernetesApiProvider"><![CDATA[{
+  "isMigrated": true
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="3IC8DuFNIu2kpwILvM5o7xXfLzZ" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/image" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.AuthnApplication">
+    <configuration name="AuthnApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="authn" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.spavlochev.authn.AuthnApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserSvcApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-svc" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="ru.spavlochev.usersvc.UserSvcApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="aab5aef0-685e-4ef4-86b3-329c85fc77e3" name="Changes" comment="" />
+      <created>1787257074360</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1787257074360</updated>
+      <workItem from="1787257076539" duration="18404000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

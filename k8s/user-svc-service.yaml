@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-svc-svc
+  namespace: usersvc
+  labels:
+    app: user-svc
+spec:
+  selector:
+    app: user-svc
+  ports:
+    - name: http
+      port: 80
+      targetPort: 18080
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: 18081
+      protocol: TCP

@@ -1,0 +1,14 @@
+auth:
+  username: "app_user"
+  database: "user_db"
+  existingSecret: "db-credentials"
+  secretKeys:
+    adminPasswordKey: "postgres-password"
+    userPasswordKey: "password"
+
+architecture: standalone
+
+primary:
+  persistence:
+    enabled: true
+    size: 250Mi

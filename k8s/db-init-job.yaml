@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-init-job
+  namespace: usersvc
+  labels:
+    app: db-init
+spec:
+  ttlSecondsAfterFinished: 3600
+
+  backoffLimit: 5
+
+  template:
+    metadata:
+      labels:
+        app: db-init
+    spec:
+      restartPolicy: Never
+
+      containers:
+        - name: psql-runner
+          image: registry-1.docker.io/bitnami/postgresql:latest
+
+          command:
+            - sh
+            - -c
+            - |
+              echo "Ждем когда PostgreSQL будет готов в работе..."              
+              until pg_isready -h user-db-postgresql -p 5432 -U app_user; do
+                echo "PostgreSQL пока недоступен - подождать 2 сек"
+                sleep 2
+              done
+              echo "PostgreSQL готов к работе - выполнить script"              
+              PGPASSWORD=$POSTGRES_PASSWORD psql -h user-db-postgresql -p 5432 -U app_user -d user_db -f /scripts/init.sql
+
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+
+          volumeMounts:
+            - name: sql-scripts
+              mountPath: /scripts
+              readOnly: true
+
+      volumes:
+        - name: sql-scripts
+          configMap:
+            name: db-init-sql

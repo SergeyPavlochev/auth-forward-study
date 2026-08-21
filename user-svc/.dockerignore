@@ -1,0 +1,35 @@
+# Ignore local build output directories
+**/target/
+**/build/
+**/out/
+
+# Ignore IDE settings and metadata
+.gigaide
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+k8s/
+
+# Ignore version control systems
+.git
+.gitignore
+.gitattributes
+.hg
+.svn
+
+# Ignore local wrapper binaries and scripts (if building inside Docker via multi-stage)
+# Only exclude these if you copy your project layer by layer manually
+.gradle/
+.mvn/
+mvnw
+mvnw.cmd
+gradlew
+gradlew.cmd
+
+# Ignore system files and logs
+**/*.log
+.DS_Store
+Thumbs.db
