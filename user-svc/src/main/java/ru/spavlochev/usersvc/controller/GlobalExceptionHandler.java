@@ -26,4 +26,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), "Access denied"));
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
+        log.error("Непредвиденная ошибка: {}", e.getMessage(), e);
+        return ResponseEntity.internalServerError()
+                .body(new ErrorResponseDto(500, e.getClass().getSimpleName() + ": " + e.getMessage()));
+    }
 }

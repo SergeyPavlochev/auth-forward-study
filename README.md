@@ -4,10 +4,10 @@
 
 ### Информация о системе  
 `user-svc` - приложение для работы с профилем пользователя, написанное на Spring Boot. Выставляет следующие endpoint-ы:
-* `GET /api/profile` - получить профиль пользователя
-* `PUT /api/profile` - обновить профиль пользователя
-* `POST /api/profile` - создать профиль пользователя
-* `DELETE /api/profile` - удалить профиль пользователя
+* `GET /api/user-profile` - получить профиль пользователя
+* `PUT /api/user-profile` - обновить профиль пользователя
+* `POST /api/user-profile` - создать профиль пользователя
+* `DELETE /api/user-profile` - удалить профиль пользователя
 
 Какой конкретно профиль нужно взять определяется на основе заголовка `X-User-Id`, который
 передает система аутентификации.
@@ -79,3 +79,17 @@
 ### Развёртывание Traefik (ingress-controller + router)
 `kubectl apply -f traefik-middleware.yaml \` \
 `-f traefik-router.yaml`
+
+## Тестирование
+
+Тесты расположены здесь: [тесты](pm/auth_and_user_profile_tests.postman_collection.json)
+
+Для запуска тестов перейти в директорию `pm` и использовать утилиту `newman`. Команда для прогона всех тестов: \
+`newman run auth_and_user_profile_tests.postman_collection.json`
+
+Так как используется имя хоста `arch.homework`, то предварительно нужно в файл `/etc/hosts` добавить строку маппинга
+для внешнего IP traefik.
+
+![pm_tests_run_1.png](image/pm_tests_run_1.png)
+
+![pm_tests_run_2.png](image/pm_tests_run_2.png)

@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponseDto> handleRuntimeException(RuntimeException e) {
         log.error("Ошибка аутентификации", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials"));
+                .body(new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), "Invalid credentials. " +
+                        e.getClass().getSimpleName() + " " + e.getMessage()));
     }
 }

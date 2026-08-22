@@ -32,7 +32,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         userSvcRestClient = RestClient.builder()
-                .baseUrl("http://user-svc-svc:80/api/user-profiles")
+                .baseUrl("http://user-svc-svc:80/api/user-profile")
                 .build();
     }
 

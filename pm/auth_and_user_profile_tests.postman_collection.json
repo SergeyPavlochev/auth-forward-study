@@ -1,0 +1,715 @@
+{
+	"info": {
+		"_postman_id": "08e5bcdf-d0fd-40a3-8bc0-f00e05e7340f",
+		"name": "Auth & Profile Tests",
+		"description": "Тесты для системы аутентификации и профилей пользователей.\n\nAPI Gateway: Traefik, AuthN: authn-service, Backend: user-svc.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "56544683",
+		"_collection_link": "https://sergeypavlochev-8636449.postman.co/workspace/ca577888-2349-4a2d-8c7a-43c7f10d1b50/collection/56544683-08e5bcdf-d0fd-40a3-8bc0-f00e05e7340f?action=share&source=collection_link&creator=56544683"
+	},
+	"item": [
+		{
+			"name": "1. Регистрация пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomSuffix = Math.floor(Math.random() * 100000);",
+							"const email1 = `user1_${randomSuffix}@example.com`;",
+							"const password1 = `Pass_${randomSuffix}!2026`;",
+							"",
+							"pm.collectionVariables.set('email1', email1);",
+							"pm.collectionVariables.set('password1', password1);",
+							"",
+							"console.log('=== [Pre-request] Регистрация пользователя 1 ===');",
+							"console.log('Email:', email1);",
+							"console.log('Password:', password1);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] Регистрация пользователя 1 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус ответа 201 Created', function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test('Тело ответа пустое', function () {    ",
+							"    const body = pm.response.text();",
+							"    pm.expect(body === '').to.be.true;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email1}}\",\n    \"password\": \"{{password1}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				},
+				"description": "Регистрация первого пользователя. Email и пароль генерируются случайно."
+			},
+			"response": []
+		},
+		{
+			"name": "2. GET /api/user-profile без токена → 401",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] GET /api/profile без токена ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 401 Unauthorized', function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Проверка, что без токена профиль получить нельзя."
+			},
+			"response": []
+		},
+		{
+			"name": "3. PUT /api/user-profile без токена → 401",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] PUT /api/profile без токена ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 401 Unauthorized', function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Hacker\",\n    \"lastName\": \"Attempt\",\n    \"email\": \"dangerous@mail.com\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Проверка, что без токена профиль изменить нельзя."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Вход пользователя 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log('=== [Response] Вход пользователя 1 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Ответ содержит токен и userId', function () {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.have.property('token');",
+							"    pm.expect(json).to.have.property('userId');",
+							"    pm.expect(json.token).to.be.a('string').and.not.empty;",
+							"    pm.expect(json.userId).to.be.a('string').and.not.empty;",
+							"    ",
+							"    pm.collectionVariables.set('token1', json.token);",
+							"    pm.collectionVariables.set('userId1', json.userId);",
+							"    ",
+							"    console.log('Сохранён token1:', json.token.substring(0, 20) + '...');",
+							"    console.log('Сохранён userId1:', json.userId);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email1}}\",\n    \"password\": \"{{password1}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				},
+				"description": "Вход пользователя 1. Токен и userId сохраняются в переменные коллекции."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Изменение профиля пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const randomSuffix = Math.floor(Math.random() * 100000);",
+							"const firstName = `Иван_${randomSuffix}`;",
+							"const lastName = `Иванов_${randomSuffix}`;",
+							"const phone = `+7${Math.floor(1000000000 + Math.random() * 9000000000)}`;",
+							"",
+							"pm.collectionVariables.set('firstName1', firstName);",
+							"pm.collectionVariables.set('lastName1', lastName);",
+							"pm.collectionVariables.set('phone1', phone);",
+							"",
+							"console.log('=== [Pre-request] Обновление профиля пользователя 1 ===');",
+							"console.log('firstName:', firstName);",
+							"console.log('lastName:', lastName);",
+							"console.log('phone:', phone);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] PUT /api/user-profile пользователя 1 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Профиль успешно обновлён', function () {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.firstName).to.eql(pm.collectionVariables.get('firstName1'));",
+							"    pm.expect(json.lastName).to.eql(pm.collectionVariables.get('lastName1'));",
+							"    pm.expect(json.phone).to.eql(pm.collectionVariables.get('phone1'));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"{{lastName1}} {{firstName1}}\",\n    \"firstName\": \"{{firstName1}}\",\n    \"lastName\": \"{{lastName1}}\",\n    \"phone\": \"{{phone1}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Обновление профиля пользователя 1. ID определяется из JWT через Traefik Forward Auth."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Проверка, что профиль пользователя 1 изменился",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] GET /api/user-profile пользователя 1 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Данные профиля совпадают с обновлёнными', function () {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json.firstName).to.eql(pm.collectionVariables.get('firstName1'));",
+							"    pm.expect(json.lastName).to.eql(pm.collectionVariables.get('lastName1'));",
+							"    pm.expect(json.phone).to.eql(pm.collectionVariables.get('phone1'));",
+							"    pm.expect(json.email).to.eql(pm.collectionVariables.get('email1'));",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token1}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Получение профиля пользователя 1. Проверяем, что данные действительно изменились."
+			},
+			"response": []
+		},
+		{
+			"name": "7. Регистрация пользователя 2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"const randomSuffix = Math.floor(Math.random() * 100000);",
+							"const email2 = `user2_${randomSuffix}@example.com`;",
+							"const password2 = `Pass_${randomSuffix}!2026`;",
+							"",
+							"pm.collectionVariables.set('email2', email2);",
+							"pm.collectionVariables.set('password2', password2);",
+							"",
+							"console.log('=== [Pre-request] Регистрация пользователя 2 ===');",
+							"console.log('Email:', email2);",
+							"console.log('Password:', password2);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log('=== [Response] Регистрация пользователя 2 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 201 Created', function () {",
+							"    pm.response.to.have.status(201);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email2}}\",\n    \"password\": \"{{password2}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. Вход пользователя 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"console.log('=== [Response] Вход пользователя 2 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Ответ содержит токен и userId', function () {",
+							"    const json = pm.response.json();",
+							"    pm.expect(json).to.have.property('token');",
+							"    pm.expect(json).to.have.property('userId');",
+							"    ",
+							"    pm.collectionVariables.set('token2', json.token);",
+							"    pm.collectionVariables.set('userId2', json.userId);",
+							"    ",
+							"    console.log('Сохранён token2:', json.token.substring(0, 20) + '...');",
+							"    console.log('Сохранён userId2:', json.userId);",
+							"});",
+							"",
+							"pm.test('userId пользователя 2 отличается от пользователя 1', function () {",
+							"    const userId1 = pm.collectionVariables.get('userId1');",
+							"    const userId2 = pm.response.json().userId;",
+							"    pm.expect(userId1).to.not.eql(userId2);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"{{email2}}\",\n    \"password\": \"{{password2}}\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/auth/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. Пользователь 2 не может прочитать профиль пользователя 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] GET /api/user-profile с токеном пользователя 2 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK (запрос прошёл)', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Пользователь 2 видит СВОЙ профиль, а не пользователя 1', function () {",
+							"    const json = pm.response.json();",
+							"    const email1 = pm.collectionVariables.get('email1');",
+							"    const email2 = pm.collectionVariables.get('email2');",
+							"    ",
+							"    // Профиль должен принадлежать пользователю 2",
+							"    pm.expect(json.email).to.eql(email2);",
+							"    pm.expect(json.email).to.not.eql(email1);",
+							"    ",
+							"    // Имя и фамилия пользователя 1 не должны быть видны",
+							"    const firstName1 = pm.collectionVariables.get('firstName1');",
+							"    const lastName1 = pm.collectionVariables.get('lastName1');",
+							"    pm.expect(json.firstName).to.not.eql(firstName1);",
+							"    pm.expect(json.lastName).to.not.eql(lastName1);",
+							"    ",
+							"    console.log('Пользователь 2 видит email:', json.email);",
+							"    console.log('Ожидался email пользователя 2:', email2);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Пользователь 2 запрашивает свой профиль. Проверяем, что он видит свои данные, а не данные пользователя 1."
+			},
+			"response": []
+		},
+		{
+			"name": "10. Пользователь 2 не может изменить профиль пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Пользователь 2 пытается подменить данные на свои, но с расчётом, что они применятся к пользователю 1",
+							"const hackerName = `HACKER_${Math.floor(Math.random() * 10000)}`;",
+							"pm.collectionVariables.set('hackerName', hackerName);",
+							"console.log('=== [Pre-request] Попытка получения профиля пользователя 1 ===');",
+							"console.log('Пытаемся установить firstName:', hackerName);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"console.log('=== [Response] PUT /api/user-profile с токеном пользователя 2 ===');",
+							"console.log('Status:', pm.response.status, pm.response.code);",
+							"console.log('Body:', pm.response.text());",
+							"",
+							"pm.test('Статус 200 OK (обновление прошло)', function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Пользователь 2 обновил СВОЙ профиль, а не пользователя 1', function () {",
+							"    const json = pm.response.json();",
+							"    const hackerName = pm.collectionVariables.get('hackerName');",
+							"    ",
+							"    // Обновлённый профиль должен принадлежать пользователю 2",
+							"    pm.expect(json.email).to.eql(pm.collectionVariables.get('email2'));",
+							"    pm.expect(json.firstName).to.eql(hackerName);",
+							"});",
+							"",
+							"const token1 = pm.collectionVariables.get('token1');",
+							"const firstName1 = pm.collectionVariables.get('firstName1');",
+							"",
+							"pm.sendRequest({",
+							"    url: pm.collectionVariables.get('baseUrl') + '/api/user-profile',",
+							"    method: 'GET',",
+							"    header: { 'Authorization': 'Bearer ' + token1 }",
+							"}, function (err, res) {",
+							"    console.log('=== [Nested] Проверка профиля пользователя 1 ===');",
+							"    console.log('Status:', res.code);",
+							"    console.log('Body:', res.text());",
+							"    ",
+							"    pm.test('Профиль пользователя 1 НЕ изменён', function () {",
+							"        const json = res.json();",
+							"        pm.expect(json.firstName).to.eql(firstName1);",
+							"        pm.expect(json.email).to.eql(pm.collectionVariables.get('email1'));",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token2}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"{{hackerName}}\",\n    \"lastName\": \"HACKED\"\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/user-profile",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"user-profile"
+					]
+				},
+				"description": "Пользователь 2 пытается изменить профиль. Проверяем, что изменится только его собственный профиль, а профиль пользователя 1 останется нетронутым."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://arch.homework",
+			"type": "string"
+		},
+		{
+			"key": "email1",
+			"value": ""
+		},
+		{
+			"key": "password1",
+			"value": ""
+		},
+		{
+			"key": "firstName1",
+			"value": ""
+		},
+		{
+			"key": "lastName1",
+			"value": ""
+		},
+		{
+			"key": "phone1",
+			"value": ""
+		},
+		{
+			"key": "email2",
+			"value": ""
+		},
+		{
+			"key": "password2",
+			"value": ""
+		},
+		{
+			"key": "hackerName",
+			"value": ""
+		},
+		{
+			"key": "token1",
+			"value": ""
+		},
+		{
+			"key": "userId1",
+			"value": ""
+		},
+		{
+			"key": "token2",
+			"value": ""
+		},
+		{
+			"key": "userId2",
+			"value": ""
+		}
+	]
+}

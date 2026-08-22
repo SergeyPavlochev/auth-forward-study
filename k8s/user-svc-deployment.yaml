@@ -23,7 +23,6 @@ spec:
       containers:
         - name: user-svc-container
           image: leokot/user-svc:latest
-          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 18080
